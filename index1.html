@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            padding: 20px;
+        }
+        h2 {
+            text-align: center;
+        }
+        form, table {
+            background: #fff;
+            padding: 15px;
+            margin: 20px auto;
+            width: 80%;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        input {
+            padding: 8px;
+            margin: 5px;
+            width: 18%;
+        }
+        button {
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+        table {
+            border-collapse: collapse;
+        }
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        table th {
+            background: #007bff;
+            color: white;
+        }
+        .edit {
+            background: #28a745;
+            color: white;
+            border: none;
+        }
+        .delete {
+            background: #dc3545;
+            color: white;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Employee Management System</h2>
+
+<form id="employeeForm">
+    <input type="text" id="empId" placeholder="Employee ID" required>
+    <input type="text" id="name" placeholder="Name" required>
+    <input type="email" id="email" placeholder="Email" required>
+    <input type="text" id="department" placeholder="Department" required>
+    <input type="number" id="salary" placeholder="Salary" required>
+    <button type="submit">Save Employee</button>
+</form>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Department</th>
+            <th>Salary</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody id="employeeTable"></tbody>
+</table>
+
+<script>
+    let employees = JSON.parse(localStorage.getItem("employees")) || [];
+    let editIndex = -1;
+
+    const form = document.getElementById("employeeForm");
+    const table = document.getElementById("employeeTable");
+
+    function displayEmployees() {
+        table.innerHTML = "";
+        employees.forEach((emp, index) => {
+            table.innerHTML += `
+                <tr>
+                    <td>${emp.empId}</td>
+                    <td>${emp.name}</td>
+                    <td>${emp.email}</td>
+                    <td>${emp.department}</td>
+                    <td>${emp.salary}</td>
+                    <td>
+                        <button class="edit" onclick="editEmployee(${index})">Edit</button>
+                        <button class="delete" onclick="deleteEmployee(${index})">Delete</button>
